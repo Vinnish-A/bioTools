@@ -13,7 +13,6 @@
 #'   - `expr`: A tidy tibble of expression data, where rows are samples, and columns are gene symbols.
 #'   - `phen`: A tidy tibble of phenotype data, including metadata for each sample.
 #'
-#' @importFrom Biobase exprs
 #' @importFrom GEOquery getGEO
 #'
 #' @details

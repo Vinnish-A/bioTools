@@ -2,9 +2,6 @@
 # plot --------------------------------------------------------------------
 
 
-library(ggrepel)
-
-
 ## volcano ----
 
 #' part_non
@@ -91,6 +88,8 @@ part_down = function(data_, x_, y_, label_, color_ = '#026401', min_ = -12, alph
 #' @param range_ A numeric vector of length 2 specifying the x-axis range. Default is c(-12, 12).
 #'
 #' @return A ggplot object representing the volcano plot.
+#'
+#' @importFrom ggrepel geom_text_repel
 #'
 #' @examples
 #' df = data.frame(

@@ -38,3 +38,13 @@ A ggplot object representing the volcano plot.
 \description{
 Combines up-, down-, and non-significant layers into a complete volcano plot.
 }
+\examples{
+df = data.frame(
+ logFC = c(-3, 1.5, 2, -4, 0),
+ log10padj = c(1, 2, 3, 4, 0.5),
+ label = c("Gene1", "Gene2", NA, "Gene4", NA),
+ direction = c("down", "up", "up", "down", "non")
+)
+volcano_plot(df)
+
+}

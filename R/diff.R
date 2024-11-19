@@ -67,7 +67,6 @@ diff_limma = function(normal_matrix, group) {
 #'   - `stat`: Wald statistic.
 #'   - `p.value`: Raw p-value.
 #'   - `padj`: Adjusted p-value (FDR).
-#' @examples
 #'
 #' @export
 diff_deseq2 = function(count_matrix, group) {
@@ -111,7 +110,6 @@ diff_deseq2 = function(count_matrix, group) {
 #'   - `LR`: Likelihood ratio statistic.
 #'   - `p.value`: Raw p-value.
 #'   - `padj`: Adjusted p-value (FDR).
-#' @examples
 #'
 #' @export
 diff_edger = function(count_matrix, group) {

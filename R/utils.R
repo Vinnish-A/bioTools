@@ -4,9 +4,13 @@
 
 ## colors ----
 
+#' @export
 color_morandi = c('#8ac3c6', '#999fbf', '#afafad', '#87b8de', '#f38684', '#a48999')
+#' @export
 color_macaron = c("#E45D61", "#4A9D47", "#F19294", "#96C3D8", "#5F9BBE", '#394c81', "#F5B375", "#67A59B", '#94697a', "#A5D38F", '#999fbf')
+#' @export
 color_monika = c('#999fbf', '#94697a', '#4A9D47')
+#' @export
 color_myth = c('#026401', 'black', '#cc0303')
 
 ## fun ----
@@ -69,6 +73,7 @@ doCal = function(x_, fun_, ...) {
 
 }
 
+#' @export
 withCal = with
 
 #' Apply a Function to Specific Elements of a List

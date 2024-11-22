@@ -20,5 +20,6 @@ A named vector where keys are cluster numbers, and values are corresponding cell
 Assigns cluster numbers to cell type labels. Unassigned clusters are grouped into the remaining group.
 }
 \examples{
-cluster2cell(cluster_A = c(0, 1), cluster_B = c(2, 3), nCluster_ = 5)
+cluster2major(cluster_A = c(0, 1), cluster_B = c(2, 3), cluster_C = NULL, nCluster_ = 5)
+
 }

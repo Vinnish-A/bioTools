@@ -23,4 +23,5 @@ Creates a UMAP plot with points colored by the specified grouping variable.
 }
 \examples{
 plot_umap(df_, x_ = "UMAP_1", y_ = "UMAP_2", colorBy_ = "CellType")
+
 }

@@ -15,7 +15,9 @@
 #' @return A named vector where keys are cluster numbers, and values are corresponding cell type labels.
 #'
 #' @examples
-#' cluster2cell(cluster_A = c(0, 1), cluster_B = c(2, 3), nCluster_ = 5)
+#' cluster2major(cluster_A = c(0, 1), cluster_B = c(2, 3), cluster_C = NULL, nCluster_ = 5)
+#'
+#' @export
 cluster2major = function(..., nCluster_, remain2_ = NULL) {
 
   exprs_ = exprs(...)
@@ -27,7 +29,7 @@ cluster2major = function(..., nCluster_, remain2_ = NULL) {
   assertthat::assert_that(all(existing_ %in% clusters_))
 
   null_ = setdiff(clusters_, unlist(exprs_))
-  if (!all(sort(existing_) == clusters_)) {
+  if (!all(clusters_ %in% existing_)) {
 
     if (is.null(remain2_)) {
       exprs_[[which(sapply(exprs_, is.null))]] = null_
@@ -38,7 +40,7 @@ cluster2major = function(..., nCluster_, remain2_ = NULL) {
   }
 
   cluster_ = as.character(unlist(exprs_))
-  cell_ = rep(names(exprs_), sapply(exprs_, length))
+  cell_ = factor(rep(names(exprs_), sapply(exprs_, length)), levels = names(exprs_))
 
   table_ = setNames(cell_, cluster_)
 
@@ -61,13 +63,16 @@ cluster2major = function(..., nCluster_, remain2_ = NULL) {
 #' @importFrom assertthat assert_that
 #'
 #' @examples
-#' cell2min(cluster_X = c(0, 1), cl2c_ = c("0" = "TypeA", "1" = "TypeA", "2" = "TypeB"), attention_ = "TypeA")
+#' cl2ma = cluster2major(cluster_A = c(0, 1), cluster_B = c(2, 3), cluster_C = NULL, nCluster_ = 5)
+#' major2minor(cluster_A1 = 0, cluster_A2 = 1, cl2ma_ = cl2ma, attention_ = "cluster_A")
+#'
+#' @export
 major2minor = function(..., cl2ma_, attention_, remain2_ = NULL) {
 
   exprs_ = exprs(...)
   exprs_ = lapply(exprs_, eval)
 
-  remain_ = as.numeric(names(cl2c_[cl2c_ == attention_]))
+  remain_ = as.numeric(names(cl2ma_[cl2ma_ == attention_]))
   existing_ = unlist(exprs_)
 
   assertthat::assert_that(all(existing_ %in% remain_))
@@ -84,13 +89,16 @@ major2minor = function(..., cl2ma_, attention_, remain2_ = NULL) {
 
   }
 
-
   cluster_ = as.character(unlist(exprs_))
-  cell_ = rep(names(exprs_), sapply(exprs_, length))
+  cell_ = factor(rep(names(exprs_), sapply(exprs_, length)), levels = names(exprs_))
 
   table_min_ = setNames(cell_, cluster_)
 
-  table_ = c(cl2c_[cl2c_ != attention_], table_min_)
+  levels_ = as.list(levels(cl2ma_))
+  levels_[[which(sapply(levels_, \(level__) level__ == attention_))]] = levels(cell_)
+  levels_ = unlist(levels_)
+
+  table_ = factor(c(cl2ma_[cl2ma_ != attention_], table_min_), levels = levels_)
 
   return(table_)
 
@@ -109,6 +117,8 @@ major2minor = function(..., cl2ma_, attention_, remain2_ = NULL) {
 #'
 #' @examples
 #' mergeSeurat(obj1, obj2, obj3)
+#'
+#' @export
 mergeSeurat = function(..., lst_ = NULL) {
 
   if (is.null(lst_)) lst_ = list(...)
@@ -137,6 +147,8 @@ mergeSeurat = function(..., lst_ = NULL) {
 #'
 #' @examples
 #' plot_umap(df_, x_ = "UMAP_1", y_ = "UMAP_2", colorBy_ = "CellType")
+#'
+#' @export
 plot_umap = function(df_, x_, y_, colorBy_) {
 
   x_ = sym(x_)

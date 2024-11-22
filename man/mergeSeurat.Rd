@@ -19,4 +19,5 @@ Combines multiple Seurat objects into a single Seurat object.
 }
 \examples{
 mergeSeurat(obj1, obj2, obj3)
+
 }

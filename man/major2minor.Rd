@@ -23,5 +23,7 @@ Updates the mapping of clusters to cell types based on the given focus cell type
 Unspecified clusters are added to the target group.
 }
 \examples{
-cell2min(cluster_X = c(0, 1), cl2c_ = c("0" = "TypeA", "1" = "TypeA", "2" = "TypeB"), attention_ = "TypeA")
+cl2ma = cluster2major(cluster_A = c(0, 1), cluster_B = c(2, 3), cluster_C = NULL, nCluster_ = 5)
+major2minor(cluster_A1 = 0, cluster_A2 = 1, cl2ma_ = cl2ma, attention_ = "cluster_A")
+
 }

@@ -19,6 +19,8 @@
 #' @export
 getGO = function(organism_ = 'hsa', keyType_ = 'SYMBOL') {
 
+  checkReliance('clusterProfiler')
+
   if (organism_ == 'hsa') {
     org_ = 'org.Hs.eg.db'
   } else {
@@ -39,7 +41,7 @@ getGO = function(organism_ = 'hsa', keyType_ = 'SYMBOL') {
 #' This function retrieves the genes associated with a specified GO term.
 #'
 #' @param name_ A string specifying the name of the GO term.
-#' @param GO_ A list of GO data, typically obtained from `getGO()`. Defaults to `GO`.
+#' @param GO_ A list of GO data, typically obtained from `getGO()`.
 #'
 #' @return A vector of gene identifiers associated with the GO term.
 #'
@@ -48,7 +50,7 @@ getGO = function(organism_ = 'hsa', keyType_ = 'SYMBOL') {
 #' genes = symbolIn("cell cycle", GO_ = GO)
 #'
 #' @export
-symbolIn = function(name_, GO_ = GO) {
+symbolIn = function(name_, GO_) {
 
   res_ = GO_$PATHID2EXTID[[GO_$NAME2PATHID[name_]]]
 
@@ -101,6 +103,8 @@ lst2gmt = function(lst_) {
 #'
 #' @export
 enrichment_of = function(genes_, toGo_ = "GO", cutoff_ = 0.05, organism_ = 'hsa') {
+
+  checkReliance('clusterProfiler')
 
   if (organism_ == 'hsa') {
     org_ = 'org.Hs.eg.db'
@@ -220,7 +224,6 @@ dotPlotPlus = function(enrichLst_, nTerms_ = 7) {
   dataPlot_ |>
     ggplot() +
     geom_point(aes(GeneRatio, Description, color = qvalue, size = Count)) +
-    # geom_text(aes(GeneRatio, Description, label = Count)) +
     scale_color_manual(values = c("FDR<0.0001" = "#4e62ab", "FDR<0.001" = "#479db4", "FDR<0.01" = "#87d0a6", "FDR<0.05" = "#cbe99d", " - " = "#f7fbae")) +
     facet_wrap(~ type, nrow = 2, scales = "free_y") +
     theme_bw() +

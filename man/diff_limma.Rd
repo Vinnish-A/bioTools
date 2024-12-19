@@ -17,6 +17,7 @@ A tibble containing the differential expression results with columns:
   - `logFC`: Log2 fold change.
   - `AveExpr`: Average expression level.
   - `t`: Moderated t-statistic.
+  - `B`: Beta-statistic.
   - `p.value`: Raw p-value.
   - `padj`: Adjusted p-value (FDR).
 }

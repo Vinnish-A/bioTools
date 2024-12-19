@@ -4,12 +4,12 @@
 \alias{symbolIn}
 \title{Retrieve Genes Associated with a GO Term}
 \usage{
-symbolIn(name_, GO_ = GO)
+symbolIn(name_, GO_)
 }
 \arguments{
 \item{name_}{A string specifying the name of the GO term.}
 
-\item{GO_}{A list of GO data, typically obtained from `getGO()`. Defaults to `GO`.}
+\item{GO_}{A list of GO data, typically obtained from `getGO()`.}
 }
 \value{
 A vector of gene identifiers associated with the GO term.

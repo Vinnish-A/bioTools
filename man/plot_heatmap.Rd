@@ -4,7 +4,14 @@
 \alias{plot_heatmap}
 \title{Plot Heatmap with Gene Set and Class Annotations}
 \usage{
-plot_heatmap(df_, table_class_, geneset_)
+plot_heatmap(
+  df_,
+  table_class_,
+  geneset_,
+  scale_ = T,
+  color_ = get_color(3),
+  range_ = NULL
+)
 }
 \arguments{
 \item{df_}{A data frame containing expression data with `symbol` as row names.}

@@ -17,7 +17,7 @@ A tibble containing the differential expression results with columns:
   - `logFC`: Log2 fold change.
   - `logCPM`: Log counts per million.
   - `LR`: Likelihood ratio statistic.
-  - `p.value`: Raw p-value.
+  - `pvalue`: Raw p-value.
   - `padj`: Adjusted p-value (FDR).
 }
 \description{

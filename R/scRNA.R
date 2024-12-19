@@ -130,58 +130,81 @@ mergeSeurat = function(..., lst_ = NULL) {
 
 }
 
-## simple_vis ----
+# unstable
+get_expr = function(seu_, fea_, rename2expr_ = F) {
 
-#' Plot UMAP visualization
-#'
-#' Creates a UMAP plot with points colored by the specified grouping variable.
-#'
-#' @param df_ Data frame. Contains UMAP coordinates and grouping information.
-#' @param x_ Character. The column name for the UMAP x-axis.
-#' @param y_ Character. The column name for the UMAP y-axis.
-#' @param colorBy_ Character. The column name for the grouping variable used for coloring points.
-#'
-#' @return A ggplot object displaying the UMAP visualization.
-#'
-#' @importFrom grid arrow
-#'
-#' @examples
-#' plot_umap(df_, x_ = "UMAP_1", y_ = "UMAP_2", colorBy_ = "CellType")
-#'
-#' @export
-plot_umap = function(df_, x_, y_, colorBy_) {
+  if ('cell' %in% colnames(seu_@meta.data)) {
 
-  x_ = sym(x_)
-  y_ = sym(y_)
-  colorBy_ = sym(colorBy_)
-
-  axis_ = guide_axis_truncated(
-    trunc_lower = unit(0, "npc"),
-    trunc_upper = unit(4, "cm")
-  )
-
-  ggplot() +
-    ggunchull::stat_unchull(aes(!!x_, !!y_, color = !!colorBy_, fill = !!colorBy_), alpha = 0.2, size = 1, lty = 2, qval = 0.8, delta = 1) +
-    geom_point(aes(!!x_, !!y_, color = !!colorBy_), size = 1) +
-    # geom_label(data = dataPlotUMAPText, aes(x, y, label = cluster, color = cluster)) +
-    guides(fill = "none", x = axis_, y = axis_) +
-    guides(color = guide_legend(override.aes = list(size = 5))) +
-    labs(color = "", title = "UMAP by CellType") +
-    scale_fill_manual(values = color_macaron) +
-    scale_color_manual(values = color_macaron) +
-    scale_x_continuous(breaks = NULL) +
-    scale_y_continuous(breaks = NULL) +
-    theme(
-      plot.title = element_text(hjust = 0.5),
-      legend.key = element_blank(),
-      aspect.ratio = 1,
-      legend.position = "bottom",
-      panel.background = element_blank(),
-      panel.grid = element_blank(),
-      axis.title = element_text(hjust = 0.05, face = "italic"),
-      axis.line.x = element_line(arrow = arrow(type = "open", length = unit(0.5, "cm"))),
-      axis.line.y = element_line(arrow = arrow(type = "open", length = unit(0.5, "cm")))
+    res_ =  inner_join(
+      as_tibble(FetchData(seu_, fea_), rownames = 'cell'),
+      as_tibble(seu_@meta.data)
     )
+
+  } else {
+
+    res_ =  inner_join(
+      as_tibble(FetchData(seu_, fea_), rownames = 'cell'),
+      as_tibble(seu_@meta.data, rownames = 'cell')
+    )
+
+  }
+
+  if (length(fea_) == 1 & rename2expr_) {
+    colnames(res_)[[2]] = 'expression'
+  }
+
+  return(res_)
+
+}
+
+# unstable
+get_umap = function(seu_) {
+
+  if ('cell' %in% colnames(seu_@meta.data)) {
+
+    res_ =  inner_join(
+      as_tibble(seu_@reductions$umap@cell.embeddings, rownames = 'cell'),
+      as_tibble(seu_@meta.data)
+    )
+
+  } else {
+
+    res_ =  inner_join(
+      as_tibble(seu_@reductions$umap@cell.embeddings, rownames = 'cell'),
+      as_tibble(seu_@meta.data, rownames = 'cell')
+    )
+
+  }
+
+  return(res_)
+
+}
+
+# unstable
+drop_outlier_each = function(dp_, x_ = 'umap_1', y_ = 'umap_2', distance_ = 0.5, nNeighbor_ = 5) {
+
+  checkReliance('dbscan')
+
+  cols_ = c(x_, y_)
+
+  vec_group_ = dp_ |>
+    select(all_of(cols_)) |>
+    dbscan::dbscan(eps = distance_, minPts = nNeighbor_) |>
+    _[['cluster']]
+
+  dp_ |>
+    filter(vec_group_ == 1)
+
+}
+
+# unstable
+drop_outlier = function(dp_, group_, x_ = 'umap_1', y_ = 'umap_2', distance_ = 0.5, nNeighbor_ = 5) {
+
+  lst_dp_ = split(dp_, dp_[[group_]])
+
+  lst_res_ = map(lst_dp_, drop_outlier_each, x_ = x_, y_ = y_, distance_ = distance_, nNeighbor_ = nNeighbor_)
+
+  bind_rows(lst_res_)
 
 }
 

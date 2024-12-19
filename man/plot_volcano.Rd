@@ -10,7 +10,7 @@ plot_volcano(
   y_ = "log10padj",
   label_ = "label",
   colorBy_ = "direction",
-  colors_ = color_myth,
+  colors_ = get_color(3, "htmap"),
   alpha_ = 0.75,
   range_ = c(-12, 12)
 )
@@ -45,6 +45,6 @@ df = data.frame(
  label = c("Gene1", "Gene2", NA, "Gene4", NA),
  direction = c("down", "up", "up", "down", "non")
 )
-volcano_plot(df)
+plot_volcano(df)
 
 }

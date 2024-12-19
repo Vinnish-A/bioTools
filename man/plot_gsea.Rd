@@ -4,7 +4,7 @@
 \alias{plot_gsea}
 \title{Plot Gene Set Enrichment Analysis (GSEA) Results}
 \usage{
-plot_gsea(gsea_, term_, sizef_ = 2, color_ = color_monika)
+plot_gsea(gsea_, term_, sizef_ = 2, color_ = get_color(2, "ddlc"))
 }
 \arguments{
 \item{gsea_}{A GSEA result object from the `clusterProfiler` package.}
